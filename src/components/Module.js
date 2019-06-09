@@ -4,12 +4,6 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import initialData from '../initial-data'
 import Column from './Column'
 
-const Container = styled.div`
-  display: grid;
-  width: 100vw;
-  grid-template-columns: 1fr 1fr 1fr;
-`
-
 function Module() {
   const [state, setState] = useState(initialData)
 
@@ -116,5 +110,11 @@ function Module() {
     </DragDropContext>
   )
 }
+
+const Container = styled.div`
+  display: grid;
+  width: 100vw;
+  grid-template-columns: 1fr 1fr 1fr;
+`
 
 export default Module
