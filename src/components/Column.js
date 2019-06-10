@@ -54,9 +54,9 @@ const Title = styled.h3`
 `
 const TaskList = styled.div`
   padding: 8px;
-  transition: background-color 0.2s ease;
+  transition: border 0.4s ease;
   border: ${props =>
-    props.isDraggingOver ? '1px solid #38394e30' : '1px solid transparent'};
+    props.isDraggingOver ? '2px solid #38394e30' : '2px solid transparent'};
   border-top: 1px solid transparent;
   flex-grow: 1;
   min-height: 100px;
