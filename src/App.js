@@ -4,8 +4,8 @@ import Module from './components/Module'
 function App() {
   return (
     <div>
-      <Module />
-      <Module />
+      <Module moduleId='m1' />
+      <Module moduleId='m2' />
     </div>
   )
 }
