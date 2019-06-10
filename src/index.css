@@ -1,3 +1,51 @@
+:root {
+  --bg0: #38394e;
+  --bg1: #e6194b;
+  --bg2: #3cb44b;
+  --bg3: #ffe119;
+  --bg4: #4363d8;
+  --bg5: #f58231;
+  --bg6: #911eb4;
+  --bg7: #42d4f4;
+  --bg8: #f032e6;
+  --bg9: #bfef45;
+  --bg10: #fabebe;
+  --bg11: #469990;
+  --bg12: #e6beff;
+  --bg13: #9a6324;
+  --bg14: #fffac8;
+  --bg15: #800000;
+  --bg16: #aaffc3;
+  --bg17: #808000;
+  --bg18: #ffd8b1;
+  --bg19: #000075;
+  --bg20: #a9a9a9;
+  --fg0: #fff;
+  --fg1: #fff;
+  --fg2: #fff;
+  --fg3: #000;
+  --fg4: #fff;
+  --fg5: #fff;
+  --fg6: #fff;
+  --fg7: #000;
+  --fg8: #fff;
+  --fg9: #000;
+  --fg10: #000;
+  --fg11: #fff;
+  --fg12: #000;
+  --fg13: #fff;
+  --fg14: #000;
+  --fg15: #fff;
+  --fg16: #000;
+  --fg17: #fff;
+  --fg18: #000;
+  --fg19: #fff;
+  --fg20: #fff;
+  --main-bg: #f3f2f1;
+  --odd: var(--main-bg);
+  --even: var(--main-bg);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,6 +53,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--main-bg);
 }
 
 code {

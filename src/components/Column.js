@@ -5,7 +5,12 @@ import Task from './Task'
 
 const InnerList = React.memo(props => {
   return props.tasks.map((task, index) => (
-    <Task key={task.id} task={task} index={index} />
+    <Task
+      key={task.id}
+      task={task}
+      index={index}
+      columnIndex={props.columnIndex}
+    />
   ))
 })
 
@@ -22,7 +27,7 @@ function Column(props) {
                 {...provided.droppableProps}
                 isDraggingOver={snapshot.isDraggingOver}
               >
-                <InnerList tasks={props.tasks} />
+                <InnerList tasks={props.tasks} columnIndex={props.index} />
                 {provided.placeholder}
               </TaskList>
             )}
@@ -35,21 +40,24 @@ function Column(props) {
 
 const Container = styled.div`
   margin: 8px;
-  border: 1px solid lightgrey;
   border-radius: 2px;
-  background-color: white;
+  background-color: var(--main-bg);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 `
 const Title = styled.h3`
+  background-color: var(--bg0);
+  color: var(--fg0);
   padding: 8px;
-  font-weight: bold;
+  xfont-weight: bold;
 `
 const TaskList = styled.div`
   padding: 8px;
   transition: background-color 0.2s ease;
-  background-color: ${props =>
-    props.isDraggingOver ? 'lightgrey' : 'inherit'};
+  border: ${props =>
+    props.isDraggingOver ? '1px solid #38394e30' : '1px solid transparent'};
+  border-top: 1px solid transparent;
   flex-grow: 1;
   min-height: 100px;
 `

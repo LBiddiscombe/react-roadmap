@@ -11,6 +11,7 @@ function Task(props) {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
+          columnIndex={props.columnIndex}
         >
           {props.task.content}
         </Container>
@@ -20,11 +21,15 @@ function Task(props) {
 }
 
 const Container = styled.div`
-  border: 1px solid lightgrey;
+  box-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.24);
+  transition: box-shadow 0.2s ease;
   border-radius: 2px;
+  border-left: ${props => '0.5rem solid var(--bg' + props.columnIndex + ')'};
   padding: 8px;
   margin-bottom: 8px;
-  background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
+  background-color: white;
+  box-shadow: ${props =>
+    props.isDragging ? '0 4px 10px rgba(0, 0,0, 0.24)' : 'none'};
 `
 
 export default Task
