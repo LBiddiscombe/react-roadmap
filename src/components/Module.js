@@ -20,6 +20,9 @@ function Module({ moduleId }) {
       <Droppable droppableId='all-columns' direction='horizontal' type='column'>
         {provided => (
           <Container {...provided.droppableProps} ref={provided.innerRef}>
+            <TempTitle>
+              <span>Title</span>
+            </TempTitle>
             {state.columnOrder.map((columnId, index) => {
               const column = state.columns.find(c => c.id === columnId)
               const tasks = state.moduleColumnTasks
@@ -48,7 +51,19 @@ function Module({ moduleId }) {
 const Container = styled.div`
   display: grid;
   width: 100vw;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 4rem 1fr 1fr 1fr;
+`
+
+const TempTitle = styled.div`
+  background-color: var(--bg0);
+  color: var(--fg0);
+  margin: 0.5rem;
+  display: grid;
+  place-items: center center;
+  span {
+    transform: rotate(-90deg);
+    font-size: 1.25rem;
+  }
 `
 
 export default Module

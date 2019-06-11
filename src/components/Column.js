@@ -17,9 +17,13 @@ const InnerList = React.memo(props => {
 function Column(props) {
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
-      {provided => (
-        <Container {...provided.draggableProps} ref={provided.innerRef}>
-          <Title {...provided.dragHandleProps}>{props.column.title}</Title>
+      {(provided, snapshot) => (
+        <Container
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          isDragging={snapshot.isDragging}
+          ref={provided.innerRef}
+        >
           <Droppable droppableId={props.column.id} type='task'>
             {(provided, snapshot) => (
               <TaskList
@@ -45,19 +49,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-`
-const Title = styled.h3`
-  background-color: var(--bg0);
-  color: var(--fg0);
-  padding: 8px;
-  xfont-weight: bold;
+  border: ${props =>
+    props.isDragging ? '2px solid #38394e30' : '2px solid transparent'};
 `
 const TaskList = styled.div`
   padding: 8px;
   transition: border 0.4s ease;
   border: ${props =>
     props.isDraggingOver ? '2px solid #38394e30' : '2px solid transparent'};
-  border-top: 1px solid transparent;
   flex-grow: 1;
   min-height: 100px;
 `
