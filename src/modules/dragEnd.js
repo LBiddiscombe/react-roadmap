@@ -1,6 +1,7 @@
 const dragEnd = (result, moduleId, prevState) => {
   const { destination, source, draggableId, type } = result
 
+  // skip update if drop cancelled or no change
   if (
     !destination ||
     (destination.droppableId === source.droppableId &&
@@ -9,15 +10,16 @@ const dragEnd = (result, moduleId, prevState) => {
     return
   }
 
+  // move task lists around
   if (type === 'module-column') {
     return
   }
 
+  // reorder columns
   if (type === 'column') {
-    const [, columnId] = draggableId.split('|')
     const newColumnOrder = Array.from(prevState.columnOrder)
     newColumnOrder.splice(source.index, 1)
-    newColumnOrder.splice(destination.index, 0, columnId)
+    newColumnOrder.splice(destination.index, 0, draggableId)
 
     const newState = {
       ...prevState,
@@ -44,7 +46,7 @@ const dragEnd = (result, moduleId, prevState) => {
     return newState
   }
 
-  // Moving from one list to another
+  // Moving task from one list to another
   const startTaskIds = [
     ...prevState.moduleColumnTasks.find(
       mc => mc.moduleId + '|' + mc.columnId === source.droppableId

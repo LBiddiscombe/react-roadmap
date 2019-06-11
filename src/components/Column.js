@@ -62,9 +62,9 @@ const Container = styled.div`
 `
 const TaskList = styled.div`
   padding: 8px;
-  transition: border 0.4s ease;
-  border: ${props =>
-    props.isDraggingOver ? '2px solid #38394e30' : '2px solid transparent'};
+  transition: all 0.4s ease;
+  background-color: ${props =>
+    props.isDraggingOver ? '#38394e10' : 'inherit'};
   flex-grow: 1;
   min-height: 100px;
 `
