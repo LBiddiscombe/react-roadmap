@@ -9,10 +9,15 @@ const dragEnd = (result, moduleId, prevState) => {
     return
   }
 
+  if (type === 'module-column') {
+    return
+  }
+
   if (type === 'column') {
+    const [, columnId] = draggableId.split('|')
     const newColumnOrder = Array.from(prevState.columnOrder)
     newColumnOrder.splice(source.index, 1)
-    newColumnOrder.splice(destination.index, 0, draggableId)
+    newColumnOrder.splice(destination.index, 0, columnId)
 
     const newState = {
       ...prevState,
@@ -25,7 +30,7 @@ const dragEnd = (result, moduleId, prevState) => {
   if (source.droppableId === destination.droppableId) {
     const newTaskIds = [
       ...prevState.moduleColumnTasks.find(
-        mc => mc.moduleId === moduleId && mc.columnId === source.droppableId
+        mc => mc.moduleId + '|' + mc.columnId === source.droppableId
       ).taskIds
     ]
 
@@ -34,7 +39,7 @@ const dragEnd = (result, moduleId, prevState) => {
 
     const newState = { ...prevState }
     newState.moduleColumnTasks.find(
-      mc => mc.moduleId === moduleId && mc.columnId === source.droppableId
+      mc => mc.moduleId + '|' + mc.columnId === source.droppableId
     ).taskIds = newTaskIds
     return newState
   }
@@ -42,13 +47,13 @@ const dragEnd = (result, moduleId, prevState) => {
   // Moving from one list to another
   const startTaskIds = [
     ...prevState.moduleColumnTasks.find(
-      mc => mc.moduleId === moduleId && mc.columnId === source.droppableId
+      mc => mc.moduleId + '|' + mc.columnId === source.droppableId
     ).taskIds
   ]
 
   const finishTaskIds = [
     ...prevState.moduleColumnTasks.find(
-      mc => mc.moduleId === moduleId && mc.columnId === destination.droppableId
+      mc => mc.moduleId + '|' + mc.columnId === destination.droppableId
     ).taskIds
   ]
 
@@ -57,11 +62,11 @@ const dragEnd = (result, moduleId, prevState) => {
 
   const newState = { ...prevState }
   newState.moduleColumnTasks.find(
-    mc => mc.moduleId === moduleId && mc.columnId === source.droppableId
+    mc => mc.moduleId + '|' + mc.columnId === source.droppableId
   ).taskIds = startTaskIds
 
   newState.moduleColumnTasks.find(
-    mc => mc.moduleId === moduleId && mc.columnId === destination.droppableId
+    mc => mc.moduleId + '|' + mc.columnId === destination.droppableId
   ).taskIds = finishTaskIds
 
   return newState

@@ -16,7 +16,12 @@ const InnerList = React.memo(props => {
 
 function Column(props) {
   return (
-    <Draggable draggableId={props.column.id} index={props.index}>
+    <Draggable
+      draggableId={props.moduleId + '|' + props.column.id}
+      index={props.index}
+      //TODO: re-enable and code list moves
+      isDragDisabled={true}
+    >
       {(provided, snapshot) => (
         <Container
           {...provided.draggableProps}
@@ -24,7 +29,10 @@ function Column(props) {
           isDragging={snapshot.isDragging}
           ref={provided.innerRef}
         >
-          <Droppable droppableId={props.column.id} type='task'>
+          <Droppable
+            droppableId={props.moduleId + '|' + props.column.id}
+            type='task'
+          >
             {(provided, snapshot) => (
               <TaskList
                 ref={provided.innerRef}

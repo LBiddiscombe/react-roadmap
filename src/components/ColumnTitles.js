@@ -1,12 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const ColumnTitles = ({ titles }) => {
+const ColumnTitles = ({ data }) => {
+  const titles = data.columnOrder.map(columnId => {
+    return data.columns.find(c => c.id === columnId).title
+  })
+
   return (
     <Container>
       <div />
-      {titles.map(title => (
-        <Title>{title}</Title>
+      {titles.map((title, index) => (
+        <Title key={'title' + index}>{title}</Title>
       ))}
     </Container>
   )
