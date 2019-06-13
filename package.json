@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "minireset.css": "0.0.5",
+    "mobx": "^5.10.1",
+    "mobx-react-lite": "^1.4.0",
     "react": "^16.8.6",
     "react-beautiful-dnd": "^11.0.3",
     "react-dom": "^16.8.6",
