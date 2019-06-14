@@ -1,38 +1,38 @@
 const initialData = {
   tasks: [
+    { id: 't0', content: 'Get Kids to sleep' },
     { id: 't1', content: 'Take out the garbage' },
     { id: 't2', content: 'Watch my favorite show' },
     { id: 't3', content: 'Charge my phone' },
-    { id: 't4', content: 'Cook dinner' },
-    { id: 't5', content: 'Get Kids to sleep' }
+    { id: 't4', content: 'Cook dinner' }
   ],
   modules: [
     {
-      id: 'm1',
+      id: 'm0',
       title: 'Product'
     },
     {
-      id: 'm2',
+      id: 'm1',
       title: 'Transaction'
     }
   ],
   columns: [
     {
-      id: 'c1',
+      id: 'c0',
       title: 'To do'
     },
     {
-      id: 'c2',
+      id: 'c1',
       title: 'In progress'
     },
     {
-      id: 'c3',
+      id: 'c2',
       title: 'Done'
     }
   ],
   // Facilitate reordering of the columns
-  columnOrder: ['c1', 'c2', 'c3'],
-  moduleOrder: ['m1', 'm2']
+  columnOrder: ['c0', 'c1', 'c2'],
+  moduleOrder: ['m0', 'm1']
 }
 
 initialData.moduleColumnTasks = []
@@ -47,10 +47,10 @@ initialData.modules.forEach(m => {
 })
 
 initialData.moduleColumnTasks.find(
-  mc => mc.moduleId === 'm1' && mc.columnId === 'c1'
-).taskIds = ['t1', 't2', 't3']
+  mc => mc.moduleId === 'm0' && mc.columnId === 'c0'
+).taskIds = ['t0', 't1', 't2']
 initialData.moduleColumnTasks.find(
-  mc => mc.moduleId === 'm2' && mc.columnId === 'c1'
-).taskIds = ['t4', 't5']
+  mc => mc.moduleId === 'm1' && mc.columnId === 'c0'
+).taskIds = ['t3', 't4']
 
 export default initialData
