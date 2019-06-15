@@ -1,38 +1,40 @@
 import React from 'react'
+import { observer } from 'mobx-react-lite'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
+import { useTaskStore } from '../hooks/useTaskStore'
+
+const ColumnList = observer(({ provided }) => {
+  const store = useTaskStore()
+  return (
+    <Container {...provided.droppableProps} ref={provided.innerRef}>
+      <div />
+      {store.columns.map((column, index) => (
+        <Draggable
+          draggableId={column.id}
+          index={index}
+          key={column.id}
+          //TODO: re-enable and code list moves
+        >
+          {provided => (
+            <Title
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+              key={'title' + index}>
+              {column.title}
+            </Title>
+          )}
+        </Draggable>
+      ))}
+    </Container>
+  )
+})
 
 const ColumnTitles = ({ data }) => {
-  const columns = data.columnOrder.map(columnId => {
-    return data.columns.find(c => c.id === columnId)
-  })
-
   return (
     <Droppable droppableId={'all-columns'} direction='horizontal' type='column'>
-      {provided => (
-        <Container {...provided.droppableProps} ref={provided.innerRef}>
-          <div />
-          {columns.map((column, index) => (
-            <Draggable
-              draggableId={column.id}
-              index={index}
-              key={column.id}
-              //TODO: re-enable and code list moves
-            >
-              {provided => (
-                <Title
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                  ref={provided.innerRef}
-                  key={'title' + index}
-                >
-                  {column.title}
-                </Title>
-              )}
-            </Draggable>
-          ))}
-        </Container>
-      )}
+      {provided => <ColumnList provided={provided} />}
     </Droppable>
   )
 }

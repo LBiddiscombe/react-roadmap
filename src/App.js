@@ -15,7 +15,6 @@ function App() {
 
   useEffect(() => {
     populateDummyData(store, initialData)
-    console.log(toJS(store))
   }, [store])
 
   const onDragEnd = result => {
@@ -43,7 +42,7 @@ function App() {
     <div>
       <TempHeader>Temp Header</TempHeader>
       <DragDropContext onDragEnd={onDragEnd}>
-        <ColumnTitles data={state} />
+        <ColumnTitles />
         <Module moduleId='m0' data={state} />
         <Module moduleId='m1' data={state} />
       </DragDropContext>
