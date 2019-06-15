@@ -1,25 +1,41 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
+import { observer } from 'mobx-react-lite'
+import styled from 'styled-components'
 import withInlineEdit from './withInlineEdit'
+import { useTaskStore } from '../hooks/useTaskStore'
 
 function Task(props) {
+  const { taskId, index, columnIndex } = props
   return (
-    <Draggable draggableId={props.task.id} index={props.index}>
+    <Draggable draggableId={taskId} index={index}>
       {(provided, snapshot) => (
-        <Container
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-          isDragging={snapshot.isDragging}
-          columnIndex={props.columnIndex}
-        >
-          <Text>{props.task.content}</Text>
-          <Handle {...provided.dragHandleProps} />
-        </Container>
+        <TaskContent
+          provided={provided}
+          snapshot={snapshot}
+          taskId={taskId}
+          columnIndex={columnIndex}
+        />
       )}
     </Draggable>
   )
 }
+
+const TaskContent = observer(props => {
+  const store = useTaskStore()
+  const { provided, snapshot, taskId, columnIndex } = props
+
+  return (
+    <Container
+      {...provided.draggableProps}
+      ref={provided.innerRef}
+      isDragging={snapshot.isDragging}
+      columnIndex={columnIndex}>
+      <Text>{store.task(taskId).title}</Text>
+      <Handle {...provided.dragHandleProps} />
+    </Container>
+  )
+})
 
 const Container = styled.div`
   box-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.24);

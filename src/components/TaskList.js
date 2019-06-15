@@ -1,47 +1,36 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
+import { observer } from 'mobx-react-lite'
+import styled from 'styled-components'
 import Task from './Task'
+import { useTaskStore } from '../hooks/useTaskStore'
 
-const InnerList = React.memo(props => {
-  return props.tasks.map((task, index) => (
-    <Task
-      key={task.id}
-      task={task}
-      index={index}
-      columnIndex={props.columnIndex}
-    />
-  ))
-})
-
-function Column(props) {
+function TaskList({ moduleId, columnId, index }) {
   return (
     <Draggable
-      draggableId={props.moduleId + '|' + props.column.id}
-      index={props.index}
+      draggableId={moduleId + '|' + columnId}
+      index={index}
       //TODO: re-enable and code list moves
-      isDragDisabled={true}
-    >
+      isDragDisabled={true}>
       {(provided, snapshot) => (
         <Container
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           isDragging={snapshot.isDragging}
-          ref={provided.innerRef}
-        >
-          <Droppable
-            droppableId={props.moduleId + '|' + props.column.id}
-            type='task'
-          >
+          ref={provided.innerRef}>
+          <Droppable droppableId={moduleId + '|' + columnId} type='task'>
             {(provided, snapshot) => (
-              <TaskList
+              <List
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                isDraggingOver={snapshot.isDraggingOver}
-              >
-                <InnerList tasks={props.tasks} columnIndex={props.index} />
+                isDraggingOver={snapshot.isDraggingOver}>
+                <InnerList
+                  moduleId={moduleId}
+                  columnId={columnId}
+                  columnIndex={index}
+                />
                 {provided.placeholder}
-              </TaskList>
+              </List>
             )}
           </Droppable>
         </Container>
@@ -49,6 +38,22 @@ function Column(props) {
     </Draggable>
   )
 }
+
+const InnerList = observer(props => {
+  const store = useTaskStore()
+  const { moduleId, columnId, columnIndex } = props
+
+  return store
+    .taskList(moduleId, columnId)
+    .taskIds.map((taskId, index) => (
+      <Task
+        key={taskId}
+        taskId={taskId}
+        index={index}
+        columnIndex={columnIndex}
+      />
+    ))
+})
 
 const Container = styled.div`
   margin: 8px;
@@ -60,7 +65,7 @@ const Container = styled.div`
   border: ${props =>
     props.isDragging ? '2px solid #38394e30' : '2px solid transparent'};
 `
-const TaskList = styled.div`
+const List = styled.div`
   padding: 8px;
   transition: all 0.4s ease;
   background-color: ${props =>
@@ -68,4 +73,4 @@ const TaskList = styled.div`
   flex-grow: 1;
   min-height: 100px;
 `
-export default Column
+export default TaskList
