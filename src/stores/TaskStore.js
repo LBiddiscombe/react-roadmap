@@ -27,6 +27,10 @@ class TaskStore {
     tl.taskIds.push(id)
   }
 
+  updateTask(id, title) {
+    this.task(id).title = title
+  }
+
   moveTask(
     id,
     fromIndex,
@@ -94,12 +98,6 @@ decorate(TaskStore, {
   modules: observable,
   columns: observable,
   taskLists: observable,
-  /*
-  task: computed,
-  module: computed,
-  column: computed,
-  taskList: computed,
-  */
   addTask: action,
   moveTask: action,
   reorderTask: action,

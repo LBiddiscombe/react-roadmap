@@ -25,13 +25,17 @@ const TaskContent = observer(props => {
   const store = useTaskStore()
   const { provided, snapshot, taskId, columnIndex } = props
 
+  const onChange = e => {
+    store.updateTask(taskId, e.target.value)
+  }
+
   return (
     <Container
       {...provided.draggableProps}
       ref={provided.innerRef}
       isDragging={snapshot.isDragging}
       columnIndex={columnIndex}>
-      <Text>{store.task(taskId).title}</Text>
+      <TaskTitle onChange={onChange}>{store.task(taskId).title}</TaskTitle>
       <Handle {...provided.dragHandleProps} />
     </Container>
   )
@@ -59,6 +63,8 @@ const Handle = styled.div`
   height: 1.5rem;
 `
 
-const Text = withInlineEdit(styled.div``)
+const TaskTitle = withInlineEdit(styled.div`
+  flex-grow: 1;
+`)
 
 export default Task

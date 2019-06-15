@@ -1,4 +1,5 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef } from 'react'
+import styled from 'styled-components'
 import { useInlineEdit } from '../hooks/useInlineEdit'
 
 export default WrappedComponent => {
@@ -7,33 +8,31 @@ export default WrappedComponent => {
     const [value, setValue] = useState(children)
     const [isEditing, setIsEditing] = useInlineEdit(elementToEdit)
 
-    const computeEditingClasses = isEditing => {
-      if (isEditing) return 'isEditable--editing'
-      return 'isEditable'
-    }
-    const isEditingClasses = useMemo(() => computeEditingClasses(isEditing), [
-      isEditing
-    ])
-
     return (
-      <div
-        onClick={() => setIsEditing(true)}
-        ref={elementToEdit}
-        className={isEditingClasses}>
+      <Container onClick={() => setIsEditing(true)} ref={elementToEdit}>
         <WrappedComponent {...props}>
           {isEditing ? (
-            <input
+            <Input
+              autoFocus
               value={value}
               onChange={e => setValue(e.target.value)}
-              style={{ all: 'unset', width: '100%' }}
             />
           ) : (
             value
           )}
         </WrappedComponent>
-      </div>
+      </Container>
     )
   }
 
   return WithInlineEdit
 }
+
+const Input = styled.input`
+  border: none;
+  font: inherit;
+  width: 100%;
+`
+const Container = styled.div`
+  flex: 1;
+`
