@@ -12,9 +12,6 @@ function App() {
 
   useEffect(() => {
     store.loadInitialData()
-    setTimeout(function() {
-      store.addTask('m0', 'c1', 'A new task after 3 seconds')
-    }, 3000)
   }, [store])
 
   const onDragEnd = result => {

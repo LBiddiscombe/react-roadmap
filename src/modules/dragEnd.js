@@ -34,6 +34,11 @@ const dragEnd = (result, store) => {
       )
     }
   }
+
+  //reorder columns
+  if (type === 'column') {
+    store.reorderColumn(draggableId, source.index, destination.index)
+  }
 }
 
 export default dragEnd

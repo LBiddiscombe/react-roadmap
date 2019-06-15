@@ -59,6 +59,12 @@ class TaskStore {
     this.columns.push({ id: `c${this.columns.length}`, title })
   }
 
+  reorderColumn(columnId, from, to) {
+    const column = { ...this.column(columnId) }
+    this.columns.splice(from, 1)
+    this.columns.splice(to, 0, column)
+  }
+
   addTaskList(moduleId, columnId) {
     if (!this.taskList(moduleId, columnId)) {
       this.taskLists.push({
