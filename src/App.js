@@ -17,10 +17,14 @@ function App() {
     }, 3000)
   }, [store])
 
+  const onDragEnd = result => {
+    dragEnd(result, store)
+  }
+
   return (
     <div>
       <TempHeader>Temp Header</TempHeader>
-      <DragDropContext onDragEnd={dragEnd}>
+      <DragDropContext onDragEnd={onDragEnd}>
         <ColumnTitles />
         {store.modules.map(module => (
           <Module key={module.id} moduleId={module.id} />

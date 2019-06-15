@@ -27,8 +27,18 @@ class TaskStore {
     tl.taskIds.push(id)
   }
 
-  moveTask(id, [m, m2 = m], [c, c2 = c]) {
-    console.log(`moving task ${id} from ${m}/${c} to ${m2}/${c2}`)
+  moveTask(
+    id,
+    fromIndex,
+    toIndex,
+    [fromModuleId, fromColumnId],
+    [toModuleId, toColumnId]
+  ) {
+    const fromTaskList = this.taskList(fromModuleId, fromColumnId)
+    const toTaskList = this.taskList(toModuleId, toColumnId)
+
+    fromTaskList.taskIds.splice(fromIndex, 1)
+    toTaskList.taskIds.splice(toIndex, 0, id)
   }
 
   reorderTask(moduleId, columnId, taskId, from, to) {
