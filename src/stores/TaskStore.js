@@ -1,4 +1,5 @@
 import { observable, action, decorate } from 'mobx'
+import initialData from '../initial-data'
 
 class TaskStore {
   tasks = []
@@ -52,6 +53,29 @@ class TaskStore {
         taskIds: []
       })
     }
+  }
+
+  loadInitialData() {
+    initialData.modules.forEach((module, moduleIndex) => {
+      this.addModule(module.title)
+    })
+
+    initialData.columns.forEach((column, columnIndex) => {
+      this.addColumn(column.title)
+    })
+
+    this.modules.forEach(module => {
+      this.columns.forEach(column => {
+        this.addTaskList(module.id, column.id)
+      })
+    })
+
+    initialData.tasks.forEach(task => {
+      const mct = initialData.moduleColumnTasks.find(mct =>
+        mct.taskIds.includes(task.id)
+      )
+      this.addTask(mct.moduleId, mct.columnId, task.content)
+    })
   }
 }
 

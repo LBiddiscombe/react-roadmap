@@ -14,7 +14,7 @@ function App() {
   const store = useTaskStore()
 
   useEffect(() => {
-    populateDummyData(store, initialData)
+    store.loadInitialData()
   }, [store])
 
   const onDragEnd = result => {
@@ -57,31 +57,5 @@ const TempHeader = styled.div`
   padding: 1rem 0;
   font-size: 2rem;
 `
-
-function populateDummyData(store, initialData) {
-  // temporary logic to load the default values for my testing
-  if (!store.modules.length) {
-    initialData.modules.forEach((module, moduleIndex) => {
-      store.addModule(module.title)
-    })
-
-    initialData.columns.forEach((column, columnIndex) => {
-      store.addColumn(column.title)
-    })
-
-    store.modules.forEach(module => {
-      store.columns.forEach(column => {
-        store.addTaskList(module.id, column.id)
-      })
-    })
-
-    initialData.tasks.forEach(task => {
-      const mct = initialData.moduleColumnTasks.find(mct =>
-        mct.taskIds.includes(task.id)
-      )
-      store.addTask(mct.moduleId, mct.columnId, task.content)
-    })
-  }
-}
 
 export default observer(App)
