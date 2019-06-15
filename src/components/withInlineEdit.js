@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react'
-import { useInlineEdit } from './useInlineEdit'
+import { useInlineEdit } from '../hooks/useInlineEdit'
 
 export default WrappedComponent => {
   const WithInlineEdit = ({ children, ...props }) => {
@@ -19,8 +19,7 @@ export default WrappedComponent => {
       <div
         onClick={() => setIsEditing(true)}
         ref={elementToEdit}
-        className={isEditingClasses}
-      >
+        className={isEditingClasses}>
         <WrappedComponent {...props}>
           {isEditing ? (
             <input
