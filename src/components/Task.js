@@ -2,7 +2,7 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import withInlineEdit from './withInlineEdit'
+import withInlineEdit from './WithInlineEdit'
 import { useTaskStore } from '../hooks/useTaskStore'
 
 function Task(props) {
