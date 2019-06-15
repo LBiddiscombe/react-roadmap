@@ -27,6 +27,7 @@ const ColumnList = observer(({ provided }) => {
           )}
         </Draggable>
       ))}
+      {provided.placeholder}
     </Container>
   )
 })
