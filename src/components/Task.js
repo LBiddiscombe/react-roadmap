@@ -35,7 +35,9 @@ const TaskContent = observer(props => {
       ref={provided.innerRef}
       isDragging={snapshot.isDragging}
       columnIndex={columnIndex}>
-      <TaskTitle onChange={onChange}>{store.task(taskId).title}</TaskTitle>
+      <TitleText addingNewTask={store.addingNewTask} onChange={onChange}>
+        {store.task(taskId).title}
+      </TitleText>
       <Handle {...provided.dragHandleProps} />
     </Container>
   )
@@ -63,7 +65,9 @@ const Handle = styled.div`
   height: 1.5rem;
 `
 
-const TaskTitle = withInlineEdit(styled.div`
+const TitleText = withInlineEdit(styled.div`
+  min-height: 1rem;
+  margin-right: 0.5rem;
   flex-grow: 1;
 `)
 

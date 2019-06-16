@@ -6,6 +6,13 @@ import Task from './Task'
 import { useTaskStore } from '../hooks/useTaskStore'
 
 function TaskList({ moduleId, columnId, index }) {
+  const store = useTaskStore()
+
+  const onClickAdd = () => {
+    store.addingNewTask = true
+    store.addTask(moduleId, columnId, '')
+  }
+
   return (
     <Draggable
       draggableId={moduleId + '|' + columnId}
@@ -18,6 +25,7 @@ function TaskList({ moduleId, columnId, index }) {
           {...provided.dragHandleProps}
           isDragging={snapshot.isDragging}
           ref={provided.innerRef}>
+          <Button onClick={onClickAdd}>+</Button>
           <Droppable droppableId={moduleId + '|' + columnId} type='task'>
             {(provided, snapshot) => (
               <List
@@ -55,7 +63,27 @@ const InnerList = observer(props => {
     ))
 })
 
+const Button = styled.button`
+  position: absolute;
+  height: 3rem;
+  width: 3rem;
+  bottom: -1.5rem;
+  left: calc(50% - 1.5rem);
+  border-radius: 50%;
+  z-index: 2;
+  display: none;
+  background-color: var(--bg0);
+  opacity: 0.6;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+`
+
 const Container = styled.div`
+  position: relative;
   margin: 8px;
   border-radius: 2px;
   background-color: var(--main-bg);
@@ -64,6 +92,14 @@ const Container = styled.div`
   box-sizing: border-box;
   border: ${props =>
     props.isDragging ? '2px solid #38394e30' : '2px solid transparent'};
+
+  &:hover {
+    border: 2px dotted #38394e30;
+  }
+
+  &:hover ${Button} {
+    display: block;
+  }
 `
 const List = styled.div`
   padding: 8px;

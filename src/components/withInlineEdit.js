@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { useInlineEdit } from '../hooks/useInlineEdit'
 
@@ -7,6 +7,12 @@ export default WrappedComponent => {
     const elementToEdit = useRef(null)
     const [value, setValue] = useState(children)
     const [isEditing, setIsEditing] = useInlineEdit(elementToEdit)
+
+    useEffect(() => {
+      if (props.addingNewTask && value === '') {
+        setIsEditing(true)
+      }
+    }, [setIsEditing, props, value])
 
     return (
       <Container onClick={() => setIsEditing(true)} ref={elementToEdit}>

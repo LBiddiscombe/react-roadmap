@@ -6,6 +6,7 @@ class TaskStore {
   modules = []
   columns = []
   taskLists = []
+  addingNewTask = false
 
   task = id => this.tasks.find(task => task.id === id)
   module = id => this.modules.find(module => module.id === id)
@@ -17,6 +18,10 @@ class TaskStore {
     )
 
   addTask(moduleId, columnId, title) {
+    // HACK: for now block adding multiple new tasks by checking for another blank title, better to hide the add button
+    const blankTasks = this.tasks.findIndex(task => task.title === '')
+    if (blankTasks > 0) return
+
     const id = `t${this.tasks.length}`
     this.tasks.push({
       id,
@@ -29,6 +34,12 @@ class TaskStore {
 
   updateTask(id, title) {
     this.task(id).title = title
+    this.addingNewTask = false
+  }
+
+  deleteTask(id) {
+    const tl = this.taskLists.find(taskList => taskList.taskIds.includes(id))
+    console.log(tl)
   }
 
   moveTask(
@@ -104,6 +115,7 @@ decorate(TaskStore, {
   modules: observable,
   columns: observable,
   taskLists: observable,
+  addingNewTask: observable,
   addTask: action,
   moveTask: action,
   reorderTask: action,
