@@ -6,12 +6,6 @@ import Task from './Task'
 import { useTaskStore } from '../hooks/useTaskStore'
 
 function TaskList({ moduleId, columnId, index }) {
-  const store = useTaskStore()
-
-  const onClickAdd = () => {
-    store.addTask(moduleId, columnId, '')
-  }
-
   return (
     <Draggable
       draggableId={moduleId + '|' + columnId}
@@ -24,7 +18,6 @@ function TaskList({ moduleId, columnId, index }) {
           {...provided.dragHandleProps}
           isDragging={snapshot.isDragging}
           ref={provided.innerRef}>
-          <Button onClick={onClickAdd}>+</Button>
           <Droppable droppableId={moduleId + '|' + columnId} type='task'>
             {(provided, snapshot) => (
               <List
@@ -50,16 +43,23 @@ const InnerList = observer(props => {
   const store = useTaskStore()
   const { moduleId, columnId, columnIndex } = props
 
-  return store
-    .taskList(moduleId, columnId)
-    .taskIds.map((taskId, index) => (
-      <Task
-        key={taskId}
-        taskId={taskId}
-        index={index}
-        columnIndex={columnIndex}
-      />
-    ))
+  const onClickAdd = () => {
+    store.addTask(moduleId, columnId, '')
+  }
+
+  return (
+    <>
+      {!store.addingNewTask && <Button onClick={onClickAdd}>+</Button>}
+      {store.taskList(moduleId, columnId).taskIds.map((taskId, index) => (
+        <Task
+          key={taskId}
+          taskId={taskId}
+          index={index}
+          columnIndex={columnIndex}
+        />
+      ))}
+    </>
+  )
 })
 
 const Button = styled.button`

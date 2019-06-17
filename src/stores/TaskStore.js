@@ -2,6 +2,7 @@ import { observable, action, decorate } from 'mobx'
 import initialData from '../initial-data'
 
 class TaskStore {
+  nextTaskId = 0
   tasks = []
   modules = []
   columns = []
@@ -18,12 +19,11 @@ class TaskStore {
     )
 
   addTask(moduleId, columnId, title) {
-    // HACK: for now block adding multiple new tasks by checking for another blank title, better to hide the add button
-    const blankTasks = this.tasks.findIndex(task => task.title === '')
-    if (blankTasks > 0) return
-
-    const id = `t${this.tasks.length}`
-    this.addingNewTask = id
+    this.nextTaskId++
+    const id = `t${this.nextTaskId}`
+    if (title === '') {
+      this.addingNewTask = id
+    }
     this.tasks.push({
       id,
       title
@@ -39,8 +39,16 @@ class TaskStore {
   }
 
   deleteTask(id) {
-    const tl = this.taskLists.find(taskList => taskList.taskIds.includes(id))
-    console.log(tl)
+    const taskList = this.taskLists.find(taskList =>
+      taskList.taskIds.includes(id)
+    )
+    const taskListTaskIndex = taskList.taskIds.findIndex(
+      taskId => taskId === id
+    )
+    const taskIndex = this.tasks.findIndex(task => task.id === id)
+
+    taskList.taskIds.splice(taskListTaskIndex, 1)
+    this.tasks.splice(taskIndex, 1)
   }
 
   moveTask(
