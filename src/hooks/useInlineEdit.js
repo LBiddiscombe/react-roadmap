@@ -3,16 +3,29 @@ import { useState, useEffect } from 'react'
 export const useInlineEdit = ref => {
   const [isEditing, setIsEditing] = useState(false)
   const isKeyEnterPressed = useKeyPress('Enter')
+  const isKeyEscapePressed = useKeyPress('Escape')
+  const [wasSaved, setWasSaved] = useState(null)
 
   useOnClickOutside(ref, () => {
+    setWasSaved(true)
     setIsEditing(false)
   })
 
   useEffect(() => {
-    if (isEditing && isKeyEnterPressed) setIsEditing(false)
+    if (isEditing && isKeyEnterPressed) {
+      setWasSaved(true)
+      setIsEditing(false)
+    }
   }, [isEditing, isKeyEnterPressed])
 
-  return [isEditing, setIsEditing]
+  useEffect(() => {
+    if (isEditing && isKeyEscapePressed) {
+      setWasSaved(false)
+      setIsEditing(false)
+    }
+  }, [isEditing, isKeyEscapePressed])
+
+  return [isEditing, setIsEditing, wasSaved]
 }
 
 function useOnClickOutside(ref, handler) {

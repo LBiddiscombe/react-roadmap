@@ -9,7 +9,6 @@ function TaskList({ moduleId, columnId, index }) {
   const store = useTaskStore()
 
   const onClickAdd = () => {
-    store.addingNewTask = true
     store.addTask(moduleId, columnId, '')
   }
 
@@ -71,9 +70,8 @@ const Button = styled.button`
   left: calc(50% - 1.5rem);
   border-radius: 50%;
   z-index: 2;
-  display: none;
   background-color: var(--bg0);
-  opacity: 0.6;
+  opacity: 0;
   border: none;
   color: white;
   font-size: 2rem;
@@ -95,10 +93,12 @@ const Container = styled.div`
 
   &:hover {
     border: 2px dotted #38394e30;
+    transition: border 0.4s ease;
   }
 
   &:hover ${Button} {
-    display: block;
+    opacity: 0.6;
+    transition: opacity 0.4s ease;
   }
 `
 const List = styled.div`

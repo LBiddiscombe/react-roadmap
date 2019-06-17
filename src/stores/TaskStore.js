@@ -6,7 +6,7 @@ class TaskStore {
   modules = []
   columns = []
   taskLists = []
-  addingNewTask = false
+  addingNewTask = null
 
   task = id => this.tasks.find(task => task.id === id)
   module = id => this.modules.find(module => module.id === id)
@@ -23,6 +23,7 @@ class TaskStore {
     if (blankTasks > 0) return
 
     const id = `t${this.tasks.length}`
+    this.addingNewTask = id
     this.tasks.push({
       id,
       title
@@ -34,7 +35,7 @@ class TaskStore {
 
   updateTask(id, title) {
     this.task(id).title = title
-    this.addingNewTask = false
+    this.addingNewTask = null
   }
 
   deleteTask(id) {
