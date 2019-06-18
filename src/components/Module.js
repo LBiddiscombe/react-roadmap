@@ -28,7 +28,7 @@ const ModuleContent = observer(props => {
       {store.columns.map((column, index) => {
         return (
           <TaskList
-            key={column.id}
+            key={moduleId + '|' + column.id}
             moduleId={moduleId}
             columnId={column.id}
             index={index}
