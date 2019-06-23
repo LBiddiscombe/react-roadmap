@@ -34,8 +34,8 @@ class TaskStore {
   }
 
   updateTask(id, title) {
-    this.task(id).title = title
     this.addingNewTask = null
+    !title ? this.deleteTask(id) : (this.task(id).title = title)
   }
 
   deleteTask(id) {
