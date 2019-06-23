@@ -2,8 +2,8 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import withInlineEdit from './withInlineEdit'
 import { useTaskStore } from '../hooks/useTaskStore'
+import { useContentEditable } from '../hooks/useContentEditable'
 
 function Task(props) {
   const { taskId, index, columnIndex } = props
@@ -24,10 +24,12 @@ function Task(props) {
 const TaskContent = observer(props => {
   const store = useTaskStore()
   const { provided, snapshot, taskId, columnIndex } = props
+  const isNewTask = taskId === store.addingNewTask
 
-  const onChange = e => {
-    store.updateTask(taskId, e.target.value)
-  }
+  const [editableRef, setIsEditing, value] = useContentEditable(
+    store.task(taskId).title,
+    isNewTask
+  )
 
   return (
     <Container
@@ -35,8 +37,12 @@ const TaskContent = observer(props => {
       ref={provided.innerRef}
       isDragging={snapshot.isDragging}
       columnIndex={columnIndex}>
-      <TitleText addingNewTask={store.addingNewTask} onChange={onChange}>
-        {store.task(taskId).title}
+      <TitleText
+        ref={editableRef}
+        addingNewTask={store.addingNewTask}
+        onClick={() => setIsEditing(true)}
+        onBlur={() => store.updateTask(taskId, value)}>
+        {value}
       </TitleText>
       <Handle {...provided.dragHandleProps} />
     </Container>
@@ -65,10 +71,10 @@ const Handle = styled.div`
   height: 1.5rem;
 `
 
-const TitleText = withInlineEdit(styled.div`
+const TitleText = styled.div`
   min-height: 1rem;
   margin-right: 0.5rem;
   flex-grow: 1;
-`)
+`
 
 export default Task
