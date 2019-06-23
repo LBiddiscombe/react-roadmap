@@ -39,7 +39,6 @@ const TaskContent = observer(props => {
       columnIndex={columnIndex}>
       <TitleText
         ref={editableRef}
-        addingNewTask={store.addingNewTask}
         onClick={() => setIsEditing(true)}
         onBlur={() => store.updateTask(taskId, value)}>
         {value}
