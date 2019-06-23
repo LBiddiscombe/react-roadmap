@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -23,10 +23,12 @@ function Task(props) {
 
 const TaskContent = observer(props => {
   const store = useTaskStore()
+  const editableRef = useRef()
   const { provided, snapshot, taskId, columnIndex } = props
   const isNewTask = taskId === store.addingNewTask
 
-  const [editableRef, setIsEditing, value] = useContentEditable(
+  const [setIsEditing, value] = useContentEditable(
+    editableRef,
     store.task(taskId).title,
     isNewTask
   )

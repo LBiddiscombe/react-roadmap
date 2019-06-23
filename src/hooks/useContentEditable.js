@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import useOnClickOutside from './useClickOutside'
 
-export const useContentEditable = (initialValue, isNewTask) => {
-  const [ref, setRef] = useState(null)
+export const useContentEditable = (ref, initialValue, isNewTask) => {
   const [isEditing, setIsEditing] = useState(false)
   const [value, setValue] = useState(initialValue)
   const pasteAsPlainText = e => {
@@ -9,6 +9,15 @@ export const useContentEditable = (initialValue, isNewTask) => {
     const text = e.clipboardData.getData('text/plain')
     document.execCommand('insertHTML', false, text)
   }
+
+  useOnClickOutside(
+    ref,
+    useCallback(() => {
+      setValue(ref.current.textContent)
+      setIsEditing(false)
+      ref.current.blur()
+    }, [ref])
+  )
 
   useEffect(() => {
     setIsEditing(isNewTask)
@@ -20,31 +29,27 @@ export const useContentEditable = (initialValue, isNewTask) => {
         return
       }
 
-      const escapePressed = e.which === 27,
-        enterPressed = e.which === 13,
-        input = ref.nodeName !== 'INPUT' && ref.nodeName !== 'TEXTAREA'
+      const escapePressed = e.which === 27
+      const enterPressed = e.which === 13 || e.which === 9
 
-      if (input) {
-        if (escapePressed) {
-          // restore state
-          document.execCommand('undo')
-          setIsEditing(false)
-          ref.blur()
-        } else if (enterPressed) {
-          // save
-          setValue(ref.textContent)
-          setIsEditing(false)
-          ref.blur()
-          e.preventDefault()
-        }
+      if (escapePressed) {
+        // restore state
+        document.execCommand('undo')
+        setIsEditing(false)
+        ref.current.blur()
+      } else if (enterPressed) {
+        // save
+        setValue(ref.current.textContent)
+        setIsEditing(false)
+        ref.current.blur()
+        e.preventDefault()
       }
     }
 
     if (ref) {
-      //TODO: isEditing state, chnaged on click
-      ref.contentEditable = isEditing
+      ref.current.contentEditable = isEditing
       if (isEditing) {
-        ref.focus()
+        ref.current.focus()
       }
     }
 
@@ -57,5 +62,5 @@ export const useContentEditable = (initialValue, isNewTask) => {
     }
   }, [ref, isEditing])
 
-  return [setRef, setIsEditing, value]
+  return [setIsEditing, value]
 }
