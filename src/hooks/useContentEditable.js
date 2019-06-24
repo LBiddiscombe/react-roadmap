@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import useOnClickOutside from './useClickOutside'
 
-export const useContentEditable = (ref, initialValue, isNewTask) => {
+export const useContentEditable = (ref, initialValue, isNewTask = false) => {
   const [isEditing, setIsEditing] = useState(false)
   const [value, setValue] = useState(initialValue)
   const pasteAsPlainText = e => {
@@ -18,6 +18,10 @@ export const useContentEditable = (ref, initialValue, isNewTask) => {
       ref.current.blur()
     }, [ref])
   )
+
+  useEffect(() => {
+    setValue(initialValue)
+  }, [initialValue])
 
   useEffect(() => {
     setIsEditing(isNewTask)
@@ -46,7 +50,7 @@ export const useContentEditable = (ref, initialValue, isNewTask) => {
       }
     }
 
-    if (ref) {
+    if (ref.current) {
       ref.current.contentEditable = isEditing
       if (isEditing) {
         ref.current.focus()

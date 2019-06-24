@@ -32,7 +32,8 @@ const initialData = {
   ],
   // Facilitate reordering of the columns
   columnOrder: ['c0', 'c1', 'c2'],
-  moduleOrder: ['m0', 'm1']
+  moduleOrder: ['m0', 'm1'],
+  title: 'Click To Edit Title'
 }
 
 initialData.moduleColumnTasks = []

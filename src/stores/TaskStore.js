@@ -2,6 +2,7 @@ import { observable, action, decorate } from 'mobx'
 import initialData from '../initial-data'
 
 class TaskStore {
+  title = ''
   nextTaskId = 0
   tasks = []
   modules = []
@@ -95,7 +96,13 @@ class TaskStore {
     }
   }
 
+  updateTitle(title) {
+    this.title = title
+  }
+
   loadInitialData() {
+    this.title = initialData.title
+
     initialData.modules.forEach((module, moduleIndex) => {
       this.addModule(module.title)
     })
@@ -120,6 +127,7 @@ class TaskStore {
 }
 
 decorate(TaskStore, {
+  title: observable,
   tasks: observable,
   modules: observable,
   columns: observable,
