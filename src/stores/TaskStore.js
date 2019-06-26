@@ -8,7 +8,7 @@ class TaskStore {
   modules = []
   columns = []
   taskLists = []
-  addingNewTask = null
+  addingTaskId = null
 
   task = id => this.tasks.find(task => task.id === id)
   module = id => this.modules.find(module => module.id === id)
@@ -23,7 +23,7 @@ class TaskStore {
     this.nextTaskId++
     const id = `t${this.nextTaskId}`
     if (title === '') {
-      this.addingNewTask = id
+      this.addingTaskId = id
     }
     this.tasks.push({
       id,
@@ -35,7 +35,7 @@ class TaskStore {
   }
 
   updateTask(id, title) {
-    this.addingNewTask = null
+    this.addingTaskId = null
     !title ? this.deleteTask(id) : (this.task(id).title = title)
   }
 
@@ -98,6 +98,7 @@ class TaskStore {
 
   updateTitle(title) {
     this.title = title
+    console.log(this.title)
   }
 
   loadInitialData() {
@@ -132,7 +133,7 @@ decorate(TaskStore, {
   modules: observable,
   columns: observable,
   taskLists: observable,
-  addingNewTask: observable,
+  addingTaskId: observable,
   addTask: action,
   moveTask: action,
   reorderTask: action,

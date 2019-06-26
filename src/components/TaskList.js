@@ -49,7 +49,7 @@ const InnerList = observer(props => {
 
   return (
     <>
-      {!store.addingNewTask && <Button onClick={onClickAdd}>+</Button>}
+      {!store.addingTaskId && <Button onClick={onClickAdd}>+</Button>}
       {store.taskList(moduleId, columnId).taskIds.map((taskId, index) => (
         <Task
           key={taskId}

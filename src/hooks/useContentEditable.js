@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import useOnClickOutside from './useClickOutside'
 
-export const useContentEditable = (ref, initialValue, isNewTask = false) => {
-  const [isEditing, setIsEditing] = useState(false)
+export const useContentEditable = (ref, initialValue, isNew = false) => {
+  // if adding a new editable component mark it as in edit by default
+  const [isEditing, setIsEditing] = useState(isNew)
   const [value, setValue] = useState(initialValue)
   const pasteAsPlainText = e => {
     e.preventDefault()
@@ -20,14 +21,6 @@ export const useContentEditable = (ref, initialValue, isNewTask = false) => {
   )
 
   useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  useEffect(() => {
-    setIsEditing(isNewTask)
-  }, [isNewTask])
-
-  useEffect(() => {
     const onKeyDown = e => {
       if (!ref) {
         return
@@ -37,12 +30,10 @@ export const useContentEditable = (ref, initialValue, isNewTask = false) => {
       const enterPressed = e.which === 13 || e.which === 9
 
       if (escapePressed) {
-        // restore state
         document.execCommand('undo')
         setIsEditing(false)
         ref.current.blur()
       } else if (enterPressed) {
-        // save
         setValue(ref.current.textContent)
         setIsEditing(false)
         ref.current.blur()

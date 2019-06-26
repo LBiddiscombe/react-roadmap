@@ -28,7 +28,7 @@ function App() {
         onClick={() => setIsEditing(true)}
         onBlur={() => store.updateTitle(title)}
       >
-        {title}
+        {store.title}
       </TempHeader>
       <DragDropContext onDragEnd={onDragEnd}>
         <ColumnTitles />

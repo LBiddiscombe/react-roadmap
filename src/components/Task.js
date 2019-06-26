@@ -25,7 +25,7 @@ const TaskContent = observer(props => {
   const store = useTaskStore()
   const editableRef = useRef()
   const { provided, snapshot, taskId, columnIndex } = props
-  const isNewTask = taskId === store.addingNewTask
+  const isNewTask = taskId === store.addingTaskId
 
   const [setIsEditing, value] = useContentEditable(
     editableRef,
@@ -38,11 +38,13 @@ const TaskContent = observer(props => {
       {...provided.draggableProps}
       ref={provided.innerRef}
       isDragging={snapshot.isDragging}
-      columnIndex={columnIndex}>
+      columnIndex={columnIndex}
+    >
       <TitleText
         ref={editableRef}
         onClick={() => setIsEditing(true)}
-        onBlur={() => store.updateTask(taskId, value)}>
+        onBlur={() => store.updateTask(taskId, value)}
+      >
         {value}
       </TitleText>
       <Handle {...provided.dragHandleProps} />
